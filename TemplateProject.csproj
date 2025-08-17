@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Target framework -->
+    <TargetFramework>net8.0</TargetFramework>
+
+    <!-- NuGet Package Information -->
+    <PackageId>CleanArchitecture.Template.Microservices</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Muskan Kumari</Authors>
+    <Company>Muskan Kumari</Company>
+    <Description>
+      A Clean Architecture Microservice Solution template for .NET.
+      This template provides a starting point for building modular,
+      testable, and scalable microservices using Clean Architecture principles.
+    </Description>
+    <PackageType>Template</PackageType>
+
+    <!-- Additional NuGet Metadata -->
+    <RepositoryUrl>https://github.com/MuskanKumariMK/CleanArchitectureTemplate.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/MuskanKumariMK/CleanArchitectureTemplate.git</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>dotnet new template clean-architecture microservice microservices architecture</PackageTags>
+    <PackageReleaseNotes>
+      Initial release of the Clean Architecture Microservices template.
+      Includes project structure, sample code, and recommended practices.
+    </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- NuGet Icon -->
+    <PackageIcon>Icon2.png</PackageIcon>
+    <!-- Packing Behavior -->
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include all template files except build artifacts -->
+    <Content Include="**\*" 
+             Exclude="bin\**;obj\**;nupkg\**;*.csproj;*.user;*.suo;*.git\**;*.vs\**" 
+             Pack="true" 
+             PackagePath="content" />
+  </ItemGroup>
+
+  <ItemGroup>
+   <!-- Add Readme file to package -->
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <!-- Add icon file to the package -->
+    <None Include="Icon2.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>
