@@ -1,4 +1,6 @@
+using Template.API;
 using Template.Application;
+using Template.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
