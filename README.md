@@ -1,5 +1,6 @@
-![NuGet](https://img.shields.io/nuget/v/CleanArchitecture.Template.Microservices?label=NuGet)
-[![GitHub](https://img.shields.io/badge/GitHub-CleanArchitectureTemplate-181717?logo=github)](https://github.com/MuskanKumariMK/TemplateProject)
+[![NuGet](https://img.shields.io/nuget/v/Coreplex.CleanArchitecture.Template.Microservices?label=NuGet)](https://www.nuget.org/packages/Coreplex.CleanArchitecture.Template.Microservices)
+
+[![GitHub](https://img.shields.io/badge/GitHub-CleanArchitectureTemplate-181717?logo=github)](https://github.com/userKumariMK/TemplateProject)
 
 # Clean Architecture Microservices Template
 
@@ -14,6 +15,10 @@ A **.NET 8 Clean Architecture Microservices Solution Template** designed to help
 - **Dependency Injection** configured by default with helper classes for easy service registration.
 - **Entity Framework Core** setup with migrations support.
 - **Docker-ready** for containerized deployment.
+- **Generic Repository & Unit of Work Pattern(v2)** Centralized repository access with async CRUD operations. UnitOfWork ensures transaction consistency across multiple repositories.
+- **Advanced Pagination (v2)** PaginateRequest & PaginateResult<TEntity> For paging, searching, and sorting.Dynamic sortableColumns mapping for flexible queries.
+  **Domain Events (v2)** Aggregate root support with AddDomainEvent.Events implemented with IDomainEvent (MediatR INotification).Automatic dispatching of events after persistence.
+
 - **Unit Tests and Integration Tests projects** included (`BuildingBlock.Tests` & `BuildingBlock.IntegrationTests`).
 - **Helper utilities for tests**:
   - `TestAssertions` – simplified assertions.
@@ -106,6 +111,190 @@ Run all tests with:
 ```bash
 dotnet test
 ```
+
+## Version 2 Updates
+
+This release is a **major enhancement** to the Clean Architecture Microservices Template.  
+Unlike a simple patch, these updates significantly improve **flexibility, maintainability, and scalability** of the solution.
+
+### What’s New
+
+- **Advanced Pagination Support**
+
+  - Added `PaginateRequest` record with page, size, search, and sorting options.
+  - Updated `PaginateResult<TEntity>` with `HasNextPage`, `HasPreviousPage`, and async creation.
+
+- **Generic Repository Enhancements**
+
+  - New `GetPaginateAsync` method supports:
+    - Filtering with `Expression<Func<TEntity, bool>>`
+    - Search using delegates for custom queries
+    - Dynamic sorting using `sortableColumns` dictionary
+  - Provides **standardized query handling** across all repositories.
+
+- **Unit of Work Pattern**
+
+  - Added `UnitOfWork` implementation to manage repository transactions.
+  - Ensures **transaction consistency** with a single `SaveChangeAsync()` call.
+  - Keeps repositories coordinated under one `DbContext`.
+
+- **Domain Abstractions (DDD-ready)**
+  - Introduced `Entity<T>` with auditing fields (`CreatedAt`, `UpdatedAt`, etc.).
+  - Added `Aggregate<TId>` for handling domain events.
+  - Added `IDomainEvent` interface based on MediatR’s `INotification`.
+  - Enables **event-driven workflows** in the Domain layer.
+
+---
+
+### How to Use the New Features
+
+---
+
+### How to Use the New Features
+
+#### 1. Paginated Query with Filters & Sorting (CQRS Query Example)
+
+```csharp
+// Query
+public record GetUsersQuery(int PageIndex, int PageSize, string? Search, string? SortColumn, string? SortOrder)
+    : IRequest<PaginateResult<User>>;
+
+// Handler
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginateResult<User>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public GetUsersQueryHandler(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<PaginateResult<User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    {
+        return await _unitOfWork.Repository<User>().GetPaginateAsync(
+            new PaginateRequest(request.PageIndex, request.PageSize, request.SortColumn, request.SortOrder),
+            filter: u => u.IsActive,
+            searchFilter: q => q.Where(u => u.Name.Contains(request.Search ?? "")
+                                         || u.Email.Contains(request.Search ?? "")),
+            sortableColumns: new()
+            {
+                { "name", u => u.Name },
+                { "email", u => u.Email }
+            });
+    }
+}
+
+
+```
+
+---
+
+#### 2. Using Unit of Work
+
+```csharp
+
+// User Add Command and handler Using UnitOfWork
+// Command
+public record CreateUserCommand(string Name, string Email) : IRequest<Guid>;
+
+// Handler
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateUserCommandHandler(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Email = request.Email,
+            IsActive = true
+        };
+
+        await _unitOfWork.Repository<User>().AddAsync(user);
+        await _unitOfWork.SaveChangeAsync();
+
+        return user.Id;
+    }
+}
+
+```
+
+---
+
+#### 3. Working with Domain Events
+
+##### Step 1 – Create the Domain Event
+
+```csharp
+// Domain Event
+public record UserCreatedEvent(User User) : IDomainEvent;
+
+```
+
+---
+
+##### Step 2 – Update the Aggregate Root
+
+```csharp
+
+// Aggregate Root
+public class User : Aggregate<Guid>
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public bool IsActive { get; set; }
+
+    public static User Create(string name, string email)
+    {
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = name,
+            Email = email,
+            IsActive = true
+        };
+
+        user.AddDomainEvent(new UserCreatedEvent(user));
+        return user;
+    }
+}
+```
+
+##### Step 3 – Handle the Event
+
+```csharp
+// Event Handler (MediatR)
+public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
+{
+    public Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
+    {
+        Console.WriteLine($"New user created: {notification.User.Name} ({notification.User.Email})");
+        return Task.CompletedTask;
+    }
+}
+```
+
+##### Step 4 – Use Domain Events
+
+```csharp
+var user = User.Create("User", "user@example.com");
+
+// Get and publish events via MediatR
+var events = user.ClearDomainEvents();
+foreach (var domainEvent in events)
+{
+    await _mediator.Publish(domainEvent);
+}
+```
+
+---
 
 ## Components
 
@@ -261,16 +450,52 @@ public interface IRequireAuthorization { }
 ### Pagination
 
 ```csharp
+
+     public record PaginateRequest(int PageIndex = 0, int PageSize = 10,string? Search = null,string? SortColumn = null, string SortOrder = "asc");
+}
+```
+
+```csharp
 Generic pagination class:
 
-public class PaginateResult<TEntity>(int pageIndex, int pageSize, long count, IEnumerable<TEntity> data)
-where TEntity : class
-{
-public int PageIndex { get; } = pageIndex;
-public int PageSize { get; } = pageSize;
-public IEnumerable<TEntity> Data { get; } = data;
-public long Count { get; } = count;
-}
+// Pagination Requets
+  public class PaginateResult<TEntity>
+    where TEntity : class
+  {
+       public PaginateResult(int pageIndex, int pageSize, long count, List<TEntity> data)
+       {
+            PageIndex = pageIndex;
+            PageSize = pageSize;
+            Count = count;
+            Data = data;
+       }
+
+
+       public int PageIndex { get; }
+
+       public int PageSize { get; }
+
+       public long Count { get; }
+
+       public List<TEntity> Data { get; }
+
+       public bool HasNextPage => (PageIndex * PageSize) < Count;
+
+       public bool HasPreviousPage => PageIndex > 1;
+
+       public static async Task<PaginateResult<TEntity>> CreateAsync(IQueryable<TEntity> query, int pageIndex, int pageSize)
+       {
+           int totalCount = await query.CountAsync();
+
+            var data = await query
+                .Skip((pageIndex - 1) * pageSize) // Skip items from previous pages
+                .Take(pageSize)                  // Take the items for the current page
+                .ToListAsync();
+
+            // Return a new PaginateResult instance with the fetched data.
+            return new(pageIndex, pageSize, totalCount, data);
+       }
+  }
 ```
 
 ---
@@ -300,6 +525,33 @@ NotFoundException → 404
 ```
 
 - Returns ProblemDetails with trace identifiers and validation errors.
+
+---
+
+### Domain Abstractions
+
+- Domain Abstractions
+
+- IEntity & IEntity<T> → Define common properties for all entities (with auditing fields).
+
+- Entity<T> → Abstract base entity with audit fields (CreatedAt, CreatedBy, etc.).
+
+- Aggregate<TId> → Extends Entity<TId> and manages domain events.
+
+- IAggregate & IAggregate<T> → Contracts for aggregates and domain event handling.
+
+- IDomainEvent → Implements INotification (MediatR), enabling event-driven workflows.
+
+```csharp
+public interface IDomainEvent : INotification
+{
+    Guid EventId => Guid.NewGuid();
+    DateTime OccurredOn => DateTime.Now;
+    string EventType => GetType().AssemblyQualifiedName;
+}
+```
+
+### Repository & Unit of Work
 
 ---
 

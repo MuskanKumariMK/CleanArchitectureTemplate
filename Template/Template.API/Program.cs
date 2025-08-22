@@ -1,6 +1,7 @@
 using Template.API;
 using Template.Application;
 using Template.Infrastructure;
+using Template.Infrastructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +17,14 @@ builder.Services
     .AddInfrastructureService(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
+await app.Services.AddMigrationAsync();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
      app.UseSwagger();
      app.UseSwaggerUI();
 }
-
+app.UseAPIService();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

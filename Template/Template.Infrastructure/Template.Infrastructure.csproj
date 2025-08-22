@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Template.Application\Template.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
