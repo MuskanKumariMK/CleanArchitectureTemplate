@@ -6,7 +6,7 @@
 
     <!-- NuGet Package Information -->
     <PackageId>Coreplex.CleanArchitecture.Template.Microservices</PackageId>
-    <Version>2.0.0</Version>
+    <Version>2.0.2</Version>
     <Authors>Muskan Kumari</Authors>
     <Company>Muskan Kumari</Company>
     <Description>
@@ -21,7 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/MuskanKumariMK/CleanArchitectureTemplate.git</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>dotnet new template clean-architecture microservice microservices architecture</PackageTags>
+    <PackageTags>dotnet new template cleanarch microservice microservices architecture</PackageTags>
     <PackageReleaseNotes>
       Initial release of the Clean Architecture Microservices template.
       Includes project structure, sample code, and recommended practices.

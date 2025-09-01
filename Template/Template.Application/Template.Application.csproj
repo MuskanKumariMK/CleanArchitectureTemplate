@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Command\" />
     <Folder Include="DTO\Response\" />
     <Folder Include="DTO\Request\" />
     <Folder Include="Mapping\" />
