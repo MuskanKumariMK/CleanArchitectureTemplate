@@ -1,5 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Template.Application.Query.Welcome;
+using Template.Applications.Common;
 namespace Template.API.Controllers
 {
      [ApiController]
@@ -12,10 +15,24 @@ namespace Template.API.Controllers
           {
                _mediator = mediator;
           }
-          [HttpGet]
-          public IActionResult Welcome()
+          /// <summary>
+          /// Gets the welcome message 
+          /// </summary>
+          /// <summary>
+          /// Gets the welcome message.
+          /// </summary>
+          [HttpGet("welcome")]
+          [EnableRateLimiting("fixed")]
+          [ProducesResponseType(typeof(ApiResponse<GetWelcomeMessageResult>), StatusCodes.Status200OK)]
+          [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+          public async Task<IActionResult> Welcome()
           {
-               return Ok("Welcome to the Clean Architecture Microservices Template!");
+               // Send query to MediatR
+               var result = await _mediator.Send(new GetWelcomeMessageQuery());
+
+               // Wrap result in standardized response
+               return Ok(ApiResponse<GetWelcomeMessageResult>.SuccessResponse(result));
+
           }
      }
 }

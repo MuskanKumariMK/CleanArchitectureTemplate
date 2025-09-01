@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using BuildingBlock.Behaviour;
+using BuildingBlock.Behaviour.Interface;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Template.Application.Query.Welcome;
 
 namespace Template.Application
 {
@@ -24,6 +26,8 @@ namespace Template.Application
                service.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
                service.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
                service.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+               service.AddTransient<IAuthorizationService<GetWelcomeMessageQuery>, Welcome.Authorization>();
+               service.AddTransient<ILoggerService<GetWelcomeMessageQuery>, Welcome.Logger>();
                return service;
           }
      }

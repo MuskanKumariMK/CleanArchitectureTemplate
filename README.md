@@ -93,7 +93,7 @@ dotnet new install CleanArchitecture.Template.Microservices
 Create a new project from the template:
 
 ```bash
-dotnet new clean-arch-microservice -n MyMicroservice
+dotnet new cleanarch -n MyMicroservice
 ```
 
 ```bash
