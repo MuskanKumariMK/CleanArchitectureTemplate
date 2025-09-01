@@ -1,3 +1,5 @@
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 using Template.API;
 using Template.Application;
 using Template.Infrastructure;
@@ -10,6 +12,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRateLimiter(options =>
+{
+     options.AddFixedWindowLimiter("fixed", opt =>
+     {
+          opt.Window = TimeSpan.FromSeconds(10); // every 10 seconds
+          opt.PermitLimit = 5; // max 5 requests allowed
+          opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+          opt.QueueLimit = 2; // 2 requests will wait in queue
+     });
+});
+
 builder.Services
     .AddApplicationService(builder.Configuration)
     .AddAPIService(builder.Configuration)
@@ -55,6 +68,7 @@ if (app.Environment.IsDevelopment())
      app.UseSwaggerUI();
 }
 app.UseAPIService();
+app.UseRateLimiter();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
