@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlock\BuildingBlock\BuildingBlock.csproj" />
-    <ProjectReference Include="..\Template.Domain\Template.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock\BuildingBlock.csproj" />
+     <ProjectReference Include="..\Template.Domain\Template.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
