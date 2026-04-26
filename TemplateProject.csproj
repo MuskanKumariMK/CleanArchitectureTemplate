@@ -6,7 +6,7 @@
 
     <!-- NuGet Package Information -->
     <PackageId>Coreplex.CleanArchitecture.Template.Microservices</PackageId>
-    <Version>2.0.2</Version>
+    <Version>2.0.4</Version>
     <Authors>Muskan Kumari</Authors>
     <Company>Muskan Kumari</Company>
     <Description>
@@ -34,6 +34,7 @@
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

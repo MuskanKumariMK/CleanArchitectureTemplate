@@ -1,0 +1,1 @@
+dotnet pack TemplateProject.csproj -c Release -o ./nupkg

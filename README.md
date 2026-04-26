@@ -567,4 +567,7 @@ public interface IDomainEvent : INotification
 
 - API layer depends on Application and MediatR, but not on Infrastructure.
 
-- Run these tests using dotnet test to enforce architectural rules.
+- Run these tests using dotnet test to enforce architectural rules.4
+
+
+
