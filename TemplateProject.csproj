@@ -45,10 +45,14 @@
                ;**/.vs/**
                ;**/.git/**
                ;**/nupkg/**
+               ;templates/**
+               ;.template*/**
                ;**/*.user
                ;**/*.suo
                ;**/*.csproj.user
                ;**/TestResults/**
+               ;TemplateProject.csproj
+               ;RenameServiceFolders.ps1
              "
              Pack="true"
              PackagePath="content" />

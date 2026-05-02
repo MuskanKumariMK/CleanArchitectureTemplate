@@ -11,8 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock.Tests\BuildingBlock.Tests.csproj" />
-    <ProjectReference Include="..\..\..\src\Template\__ServiceName__.API\__ServiceName__.API.csproj" />
-    <ProjectReference Include="..\..\..\src\Template\__ServiceName__.Application\__ServiceName__.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.API\__ServiceName__.API.csproj" />
+    <ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.Application\__ServiceName__.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

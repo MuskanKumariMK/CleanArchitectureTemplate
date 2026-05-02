@@ -19,9 +19,9 @@
   </ItemGroup>
 	<ItemGroup>
 
-		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.API\__ServiceName__.API.csproj" />
-		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Application\__ServiceName__.Application.csproj" />
-		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Domain\__ServiceName__.Domain.csproj" />
+		<ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.API\__ServiceName__.API.csproj" />
+		<ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.Application\__ServiceName__.Application.csproj" />
+		<ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.Domain\__ServiceName__.Domain.csproj" />
 		<ProjectReference Include="..\__ServiceName__.Application.UnitTests\__ServiceName__.Application.UnitTests.csproj" />
 	</ItemGroup>
 

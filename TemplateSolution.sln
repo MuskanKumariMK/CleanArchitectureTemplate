@@ -17,11 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ServiceName__.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ServiceName__.Domain", "src\__ServiceName__\__ServiceName__.Domain\__ServiceName__.Domain.csproj", "{686B1A29-7E27-4112-974E-E5793954291E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".template.config", ".template.config", "{5CE65539-E4AF-4F13-8ECB-3F646DD4655D}"
-	ProjectSection(SolutionItems) = preProject
-		template.json = template.json
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Tests", "BuildingBlock\BuildingBlock.Tests\BuildingBlock.Tests.csproj", "{C73D74D3-FE21-4337-AD9D-77D2305430D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__ServiceName__.Tests", "__ServiceName__.Tests", "{164438C5-3191-4E4C-B0B3-ECF6DF21B9A8}"

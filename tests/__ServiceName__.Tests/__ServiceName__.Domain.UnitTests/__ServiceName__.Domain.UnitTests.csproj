@@ -19,7 +19,7 @@
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Domain\__ServiceName__.Domain.csproj" />
+		<ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.Domain\__ServiceName__.Domain.csproj" />
 	</ItemGroup>    
   <ItemGroup>
     <Using Include="Xunit" />

@@ -10,7 +10,7 @@
   </PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\BuildingBlock\BuildingBlock\BuildingBlock.csproj" />
-		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Application\__ServiceName__.Application.csproj" />
+		<ProjectReference Include="..\..\..\src\__ServiceName__\__ServiceName__.Application\__ServiceName__.Application.csproj" />
 
 	</ItemGroup>
 	<ItemGroup>
