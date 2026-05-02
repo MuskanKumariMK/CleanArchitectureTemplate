@@ -37,11 +37,20 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- Include all template files except build artifacts -->
-    <Content Include="**\*" 
-             Exclude="bin\**;obj\**;nupkg\**;*.csproj;*.user;*.suo;*.git\**;*.vs\**" 
-             Pack="true" 
+<ItemGroup>
+    <Content Include="**\*"
+             Exclude="
+               **/bin/**
+               ;**/obj/**
+               ;**/.vs/**
+               ;**/.git/**
+               ;**/nupkg/**
+               ;**/*.user
+               ;**/*.suo
+               ;**/*.csproj.user
+               ;**/TestResults/**
+             "
+             Pack="true"
              PackagePath="content" />
   </ItemGroup>
 

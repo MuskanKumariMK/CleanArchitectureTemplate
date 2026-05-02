@@ -1,11 +1,16 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Muskan Kumari",
-  "classifications": ["Web", "Service", "Clean Architecture", "Microservice"],
+  "classifications": [
+    "Web",
+    "Service",
+    "Clean Architecture",
+    "Microservice"
+  ],
   "identity": "CleanArchitecture.Template",
   "name": "Clean Architecture Microservice Solution",
   "shortName": "cleanarch",
-  "sourceName": "Template",
+  "sourceName": "TemplateSolution",
   "preferNameDirectory": true,
   "tags": {
     "language": "C#",
@@ -13,23 +18,35 @@
   },
   "description": "A production-ready Clean Architecture based Microservice template for .NET.",
   "defaultName": "CleanArchService",
-  "primaryOutputs": [{ "path": "Template.sln" }],
+  "primaryOutputs": [
+    {
+      "path": "TemplateSolution.sln"
+    }
+  ],
   "symbols": {
     "ServiceName": {
       "type": "parameter",
       "datatype": "string",
-      "description": "Name of your service (e.g. Order, Basket, Catalog)",
-      "replaces": "__ServiceName__",
-      "defaultValue": "Service"
+      "defaultValue": "Ordering",
+      "replaces": "__ServiceName__"
     },
     "Framework": {
       "type": "parameter",
       "datatype": "choice",
       "description": "Target .NET version",
       "choices": [
-        { "choice": "net6.0", "description": "Use .NET 6 LTS" },
-        { "choice": "net7.0", "description": "Use .NET 7 (Standard-Term)" },
-        { "choice": "net8.0", "description": "Use .NET 8 LTS (Recommended)" }
+        {
+          "choice": "net6.0",
+          "description": "Use .NET 6 LTS"
+        },
+        {
+          "choice": "net7.0",
+          "description": "Use .NET 7 (Standard-Term)"
+        },
+        {
+          "choice": "net8.0",
+          "description": "Use .NET 8 LTS (Recommended)"
+        }
       ],
       "defaultValue": "net8.0",
       "replaces": "net8.0"
@@ -45,6 +62,11 @@
   },
   "sources": [
     {
+      "source": "./",
+      "target": "./",
+      "rename": {
+        "__ServiceName__": "{ServiceName}"
+      },
       "modifiers": [
         {
           "exclude": [
@@ -52,7 +74,9 @@
             "**/[Bb]in/**",
             "**/[Oo]bj/**",
             "**/.git/**",
-            "**/.vs/**"
+            "**/.vs/**",
+            "**/nupkg/**",
+            "TemplateProject.csproj"
           ]
         }
       ]

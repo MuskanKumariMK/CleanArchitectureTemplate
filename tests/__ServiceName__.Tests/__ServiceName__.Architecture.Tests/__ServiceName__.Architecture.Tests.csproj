@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="8.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+	<ItemGroup>
+
+		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.API\__ServiceName__.API.csproj" />
+		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Application\__ServiceName__.Application.csproj" />
+		<ProjectReference Include="..\..\..\src\Template\__ServiceName__.Domain\__ServiceName__.Domain.csproj" />
+		<ProjectReference Include="..\__ServiceName__.Application.UnitTests\__ServiceName__.Application.UnitTests.csproj" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
